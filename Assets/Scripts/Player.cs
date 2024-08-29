@@ -22,6 +22,10 @@ public class Player : Actor
         {
             Attack();
         }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            Interact();
+        }
     }
 
     void FixedUpdate()
@@ -35,5 +39,17 @@ public class Player : Actor
         float y = Input.GetAxis("Vertical");
 
         moveVector = new Vector3(x, 0, y);
+    }
+
+    private void Interact()
+    {
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position + (Vector3.forward * attackRange), attackRange - 1);
+        foreach (var hitCollider in hitColliders)
+        {
+            if (hitCollider.GetComponentInParent<Interactable>() != null)
+            {
+                hitCollider.GetComponentInParent<Interactable>().Interact(gameObject);
+            }
+        }
     }
 }
