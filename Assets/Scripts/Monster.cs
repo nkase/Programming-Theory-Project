@@ -11,7 +11,7 @@ public class Monster : Actor
     // Start is called before the first frame update
     void Start()
     {
-        speed = 0.3f;
+        speed = 0.2f;
         health = 3;
         rb = GetComponent<Rigidbody>();
     }
@@ -48,12 +48,12 @@ public class Monster : Actor
     private void MoveVectorToTarget()
     {
         Vector3 headingToTarget = player.transform.position - transform.position;
-        if (Vector3.Magnitude(headingToTarget) > hostilityRadius)
+        if (Vector3.Magnitude(headingToTarget) > hostilityRadius * 1.5)
         {
             player = null;
             moveVector = Vector3.zero;
         }
-        else if (Vector3.Magnitude(headingToTarget) > 3)
+        else if (Vector3.Magnitude(headingToTarget) > 4)
         {
             moveVector = headingToTarget;
         }
