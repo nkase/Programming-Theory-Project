@@ -7,7 +7,7 @@ public class Player : Actor
     // Start is called before the first frame update
     void Start()
     {
-        speed = 0.3f;
+        speed = 0.2f;
         health = 3;
         attackRange = 5;
         attackDamage = 1;

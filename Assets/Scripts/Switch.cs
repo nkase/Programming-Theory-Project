@@ -9,12 +9,12 @@ public class Switch : Interactable
     {
         if (switchState == false)
         {
-            transform.Translate(new Vector3(0, 5, 0));
+            transform.Translate(new Vector3(0, 2, 0));
             switchState = true;
         }
         else
         {
-            transform.Translate(new Vector3(0, -5, 0));
+            transform.Translate(new Vector3(0, -2, 0));
             switchState = false;
         }
     }

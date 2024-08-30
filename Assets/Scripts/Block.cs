@@ -1,33 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using UnityEngine;
 
 public class Block : Interactable
 {
-    private Vector3 offset;
-    private GameObject pusher;
-    private bool isBeingPushed = false;
+    private float speed = 0.8f;
 
     public override void Interact(GameObject interactor)
     {
-        if (isBeingPushed == false)
-        {
-            pusher = interactor;
-            offset = interactor.transform.position - transform.position;
-            isBeingPushed = true;
-        }
-        else
-        {
-            pusher = null;
-            isBeingPushed = false;
-        }
+        Debug.Log("Maybe I can push this?");
     }
 
-    private void Update()
+    private void OnCollisionStay(Collision collisionInfo)
     {
-        if (isBeingPushed == true)
+        foreach (ContactPoint contact in collisionInfo.contacts)
         {
-            transform.position = pusher.transform.position - offset;
+            if (contact.otherCollider.GetComponentInParent<Player>() != null)
+            {
+                //Debug.Log(contact.normal.x + " " + contact.normal.y + " " + contact.normal.z);
+                transform.Translate(Time.deltaTime * speed * contact.normal);
+                //contact.otherCollider.attachedRigidbody.AddForce(-contact.normal * , ForceMode.Impulse);
+            }
         }
     }
 }

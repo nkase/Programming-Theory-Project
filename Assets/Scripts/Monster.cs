@@ -11,7 +11,7 @@ public class Monster : Actor
     // Start is called before the first frame update
     void Start()
     {
-        speed = 0.2f;
+        speed = 0.1f;
         health = 3;
         rb = GetComponent<Rigidbody>();
     }
