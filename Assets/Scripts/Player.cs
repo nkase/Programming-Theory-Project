@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Player : Actor
 {
+    [SerializeField]
+    private GameObject focalPoint;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -38,7 +41,7 @@ public class Player : Actor
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
 
-        moveVector = new Vector3(x, 0, y);
+        moveVector = (focalPoint.transform.right * x) + (focalPoint.transform.forward * y);
     }
 
     private void Interact()
