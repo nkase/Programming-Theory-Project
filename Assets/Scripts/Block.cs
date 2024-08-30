@@ -20,6 +20,7 @@ public class Block : Interactable
             {
                 //Debug.Log(contact.normal.x + " " + contact.normal.y + " " + contact.normal.z);
                 transform.Translate(Time.deltaTime * speed * contact.normal);
+                //transform.position = Vector3.Lerp(transform.position, Time.deltaTime * speed * contact.normal + transform.position, 1);
                 //contact.otherCollider.attachedRigidbody.AddForce(-contact.normal * , ForceMode.Impulse);
             }
         }

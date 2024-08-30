@@ -55,4 +55,21 @@ public class Player : Actor
             }
         }
     }
+
+    private void OnCollisionEnter(Collision collisionInfo)
+    {
+        foreach (ContactPoint contact in collisionInfo.contacts)
+        {
+            if (contact.otherCollider.GetComponentInParent<Block>() != null)
+            {
+                // cut speed in half while pushing a block
+                speed = 0.1f;
+            }
+        }
+    }
+
+    private void OnCollisionExit(Collision collisionInfo)
+    {
+        speed = 0.2f;
+    }
 }
