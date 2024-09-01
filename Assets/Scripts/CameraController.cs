@@ -18,6 +18,6 @@ public class CameraController : MonoBehaviour
             transform.Rotate(0, mouseX * lookSpeed * Time.deltaTime, 0);
         }
 
-        transform.position = Vector3.Lerp(transform.position, player.transform.position,5);
+        transform.position = player.transform.position;
     }
 }
