@@ -11,8 +11,13 @@ public abstract class Actor : MonoBehaviour
     protected int health;
     protected float attackRange;
     protected int attackDamage;
+    protected float attackCooldown;
+    protected float attackCDTimer;
+    protected bool isAlive;
 
     protected Rigidbody rb;
+    protected Animator animator;
+    protected ParticleSystem effects;
 
     protected void Move()
     {
@@ -21,13 +26,26 @@ public abstract class Actor : MonoBehaviour
         {
             moveVector.Normalize();
         }
+
+        transform.LookAt(transform.position + moveVector);
+        animator.SetFloat("Forward", moveVector.magnitude);
         rb.MovePosition(transform.position + (speed * moveVector));
     }
 
     protected void Attack()
     {
+        if (attackCDTimer <= 0)
+        {
+            //effects.Play();
+            animator.SetTrigger("Attack");
+            attackCDTimer = attackCooldown;
+        }
+    }
+
+    public void DealDamage()
+    {
         // attack method activates a collider and checks if anything is in it, then passes a damage call if so
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position + (Vector3.forward * attackRange), attackRange - 1);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position + (transform.forward * attackRange), attackRange);
         foreach (var hitCollider in hitColliders)
         {
             if (hitCollider.GetComponentInParent<Actor>() != null)
@@ -44,9 +62,18 @@ public abstract class Actor : MonoBehaviour
     {
         Debug.Log(gameObject + " was hit for " + damage);
         health -= damage;
+        effects.Play();
+        animator.SetTrigger("Damaged");
         if (health <= 0)
         {
-            Destroy(gameObject);
+            animator.SetTrigger("Dead");
+            isAlive = false;
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position + (transform.forward * attackRange), attackRange);
     }
 }

@@ -5,7 +5,9 @@ using UnityEngine;
 
 public class Block : Interactable
 {
-    private float speed = 0.8f;
+    //private float weight = 1f;
+    [SerializeField]
+    private Rigidbody rb;
 
     public override void Interact(GameObject interactor)
     {
@@ -19,9 +21,10 @@ public class Block : Interactable
             if (contact.otherCollider.GetComponentInParent<Player>() != null)
             {
                 //Debug.Log(contact.normal.x + " " + contact.normal.y + " " + contact.normal.z);
-                transform.Translate(Time.deltaTime * speed * contact.normal);
+                //transform.Translate(Time.deltaTime * speed * contact.normal);
                 //transform.position = Vector3.Lerp(transform.position, Time.deltaTime * speed * contact.normal + transform.position, 1);
                 //contact.otherCollider.attachedRigidbody.AddForce(-contact.normal * , ForceMode.Impulse);
+                rb.AddForce(contact.normal, ForceMode.Impulse);
             }
         }
     }

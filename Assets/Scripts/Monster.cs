@@ -7,26 +7,45 @@ public class Monster : Actor
 {
     private Player player;
     private float hostilityRadius = 20;
+    [SerializeField]
+    private Vector3 headingToTarget;
+    [SerializeField]
+    float range;
 
     // Start is called before the first frame update
     void Start()
     {
-        speed = 0.1f;
+        speed = 0.05f;
         health = 3;
+        attackDamage = 1;
+        attackRange = 1;
+        attackCooldown = 1;
+        isAlive = true;
         rb = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
+        effects = GetComponentInChildren<ParticleSystem>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (player != null)
+        if (isAlive)
         {
-            MoveVectorToTarget();
-            Move();
-        }
-        else
-        {
-            FindTarget();
+            attackCDTimer -= Time.deltaTime;
+            if (player != null)
+            {
+                MoveVectorToTarget();
+                Move();
+                range = headingToTarget.magnitude;
+                if (headingToTarget.magnitude < attackRange * 2)
+                {
+                    Attack();
+                }
+            }
+            else
+            {
+                FindTarget();
+            }
         }
     }
 
@@ -47,13 +66,13 @@ public class Monster : Actor
 
     private void MoveVectorToTarget()
     {
-        Vector3 headingToTarget = player.transform.position - transform.position;
+        headingToTarget = player.transform.position - transform.position;
         if (Vector3.Magnitude(headingToTarget) > hostilityRadius * 1.5)
         {
             player = null;
             moveVector = Vector3.zero;
         }
-        else if (Vector3.Magnitude(headingToTarget) > 4)
+        else if (Vector3.Magnitude(headingToTarget) > 1.5)
         {
             moveVector = headingToTarget;
         }

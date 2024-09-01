@@ -7,33 +7,48 @@ public class Player : Actor
     [SerializeField]
     private GameObject focalPoint;
 
+    private float speedRef = 0.1f;
+
+
     // Start is called before the first frame update
     void Start()
     {
-        speed = 0.2f;
+        speed = speedRef;
         health = 3;
-        attackRange = 5;
+        attackRange = 1;
         attackDamage = 1;
+        attackCooldown = 1;
+        isAlive = true;
         rb = GetComponent<Rigidbody>();
+        animator = GetComponent<Animator>();
+        effects = GetComponentInChildren<ParticleSystem>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        ControlMoveVector();
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (isAlive)
         {
-            Attack();
-        }
-        if (Input.GetKeyDown(KeyCode.F))
-        {
-            Interact();
+            attackCDTimer -= Time.deltaTime;
+            ControlMoveVector();
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Attack();
+            }
+            if (Input.GetKeyDown(KeyCode.F))
+            {
+                Interact();
+                animator.SetTrigger("Interact");
+            }
         }
     }
 
     void FixedUpdate()
     {
-        Move();
+        if (isAlive)
+        {
+            Move();
+        }
     }
 
     private void ControlMoveVector()
@@ -46,7 +61,7 @@ public class Player : Actor
 
     private void Interact()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position + (Vector3.forward * attackRange), attackRange - 1);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position + (transform.forward * attackRange), attackRange - 1);
         foreach (var hitCollider in hitColliders)
         {
             if (hitCollider.GetComponentInParent<Interactable>() != null)
@@ -56,20 +71,15 @@ public class Player : Actor
         }
     }
 
-    private void OnCollisionEnter(Collision collisionInfo)
+    private void OnCollisionEnter()
     {
-        foreach (ContactPoint contact in collisionInfo.contacts)
-        {
-            if (contact.otherCollider.GetComponentInParent<Block>() != null)
-            {
-                // cut speed in half while pushing a block
-                speed = 0.1f;
-            }
-        }
+        // cut speed in half while pushing a block
+        //speed = speedRef / 2;
     }
 
-    private void OnCollisionExit(Collision collisionInfo)
+    private void OnCollisionExit()
     {
-        speed = 0.2f;
+        // reset speed on collision exit
+        speed = speedRef;
     }
 }
