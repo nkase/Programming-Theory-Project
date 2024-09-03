@@ -12,6 +12,12 @@ public class Monster : Actor
     [SerializeField]
     float range;
 
+    public delegate void OnMonsterHostility();
+    public static event OnMonsterHostility onMonsterHostility;
+
+    public delegate void OnMonsterPassivity();
+    public static event OnMonsterPassivity onMonsterPassivity;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -60,6 +66,7 @@ public class Monster : Actor
             if (hitCollider.GetComponentInParent<Player>() != null)
             {
                 player = hitCollider.GetComponentInParent<Player>();
+                onMonsterHostility?.Invoke();
             }
         }
     }
@@ -71,6 +78,7 @@ public class Monster : Actor
         {
             player = null;
             moveVector = Vector3.zero;
+            onMonsterPassivity?.Invoke();
         }
         else if (Vector3.Magnitude(headingToTarget) > 1.5)
         {
