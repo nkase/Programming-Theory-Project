@@ -6,16 +6,15 @@ public class CameraController : MonoBehaviour
 {
     [SerializeField]
     private GameObject player;
-    private float lookSpeed = 500;
-    private float mouseX;
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButton(1))
+        if (Input.GetKeyDown(KeyCode.C))
         {
-            mouseX = Input.GetAxis("Mouse X");
-            transform.Rotate(0, mouseX * lookSpeed * Time.deltaTime, 0);
+            // mouseX = Input.GetAxis("Mouse X");
+            //transform.Rotate(0, mouseX * lookSpeed * Time.deltaTime, 0);
+            transform.Rotate(0, 45, 0);
         }
 
         transform.position = player.transform.position;
