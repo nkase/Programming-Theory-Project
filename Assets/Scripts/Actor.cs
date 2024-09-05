@@ -58,7 +58,7 @@ public abstract class Actor : MonoBehaviour
         }
     }
 
-    public void Damage(int damage)
+    public virtual void Damage(int damage)
     {
         Debug.Log(gameObject + " was hit for " + damage);
         health -= damage;

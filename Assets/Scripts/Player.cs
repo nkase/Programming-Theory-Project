@@ -8,7 +8,15 @@ public class Player : Actor
     private GameObject focalPoint;
 
     private float speedRef = 0.1f;
+    private int maxHealth = 3;
+    private int maxXP = 10;
+    private int xp = 0;
 
+    public delegate void PlayerHealthReport(int health, int maxHealth);
+    public static event PlayerHealthReport playerHealthReport;
+
+    public delegate void PlayerXPReport(int xp, int maxXP);
+    public static event PlayerXPReport playerXPReport;
 
     // Start is called before the first frame update
     void Start()
@@ -22,6 +30,9 @@ public class Player : Actor
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         effects = GetComponentInChildren<ParticleSystem>();
+
+        playerHealthReport?.Invoke(health, maxHealth);
+        playerXPReport?.Invoke(xp, maxXP);
     }
 
     // Update is called once per frame
@@ -40,6 +51,12 @@ public class Player : Actor
                 Interact();
                 animator.SetTrigger("Interact");
             }
+        }
+
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            xp++;
+            playerXPReport?.Invoke(xp, maxXP);
         }
     }
 
@@ -68,6 +85,20 @@ public class Player : Actor
             {
                 hitCollider.GetComponentInParent<Interactable>().Interact(gameObject);
             }
+        }
+    }
+
+    public override void Damage(int damage)
+    {
+        Debug.Log(gameObject + " was hit for " + damage);
+        health -= damage;
+        playerHealthReport?.Invoke(health,maxHealth);
+        effects.Play();
+        animator.SetTrigger("Damaged");
+        if (health <= 0)
+        {
+            animator.SetTrigger("Dead");
+            isAlive = false;
         }
     }
 
