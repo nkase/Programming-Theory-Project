@@ -9,8 +9,8 @@ public abstract class Actor : MonoBehaviour
     protected Vector3 moveVector;
 
     protected float health;
-    protected float attackRange;
-    protected float attackDamage;
+    public float attackRange;
+    public float attackDamage;
     protected float attackCooldown;
     protected float attackCDTimer;
     protected bool isAlive;
@@ -18,6 +18,7 @@ public abstract class Actor : MonoBehaviour
     protected Rigidbody rb;
     protected Animator animator;
     protected ParticleSystem effects;
+    [SerializeField] protected GameObject attackProjectile;
 
     protected void Move()
     {
@@ -42,20 +43,28 @@ public abstract class Actor : MonoBehaviour
         }
     }
 
+    //public void DealDamage()
+    //{
+    //    // attack method activates a collider and checks if anything is in it, then passes a damage call if so
+    //    Collider[] hitColliders = Physics.OverlapSphere(transform.position + (transform.forward * attackRange), attackRange);
+    //    foreach (var hitCollider in hitColliders)
+    //    {
+    //        if (hitCollider.GetComponentInParent<Actor>() != null)
+    //        {
+    //            if (hitCollider.gameObject != gameObject)
+    //            {
+    //                hitCollider.GetComponentInParent<Actor>().Damage(attackDamage);
+    //            }
+    //        }
+    //    }
+    //}
+
     public void DealDamage()
     {
-        // attack method activates a collider and checks if anything is in it, then passes a damage call if so
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position + (transform.forward * attackRange), attackRange);
-        foreach (var hitCollider in hitColliders)
-        {
-            if (hitCollider.GetComponentInParent<Actor>() != null)
-            {
-                if (hitCollider.gameObject != gameObject)
-                {
-                    hitCollider.GetComponentInParent<Actor>().Damage(attackDamage);
-                }
-            }
-        }
+
+        attackProjectile.transform.position = transform.position + transform.forward;
+        attackProjectile.transform.rotation = transform.rotation;
+        attackProjectile.SetActive(true);
     }
 
     public virtual void Damage(float damage)

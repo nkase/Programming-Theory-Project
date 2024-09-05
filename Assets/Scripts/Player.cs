@@ -28,7 +28,7 @@ public class Player : Actor
     {
         speed = speedRef;
         health = 3;
-        attackRange = 1;
+        attackRange = 0.1f;
         attackDamage = 1;
         attackCooldown = 1;
         isAlive = true;

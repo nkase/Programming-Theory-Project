@@ -25,7 +25,7 @@ public class Monster : Actor
         speed = 0.05f;
         health = 2;
         attackDamage = 1;
-        attackRange = 1;
+        attackRange = 0.1f;
         attackCooldown = 1;
         isAlive = true;
         rb = GetComponent<Rigidbody>();
@@ -44,7 +44,7 @@ public class Monster : Actor
                 MoveVectorToTarget();
                 Move();
                 range = headingToTarget.magnitude;
-                if (headingToTarget.magnitude < attackRange * 2)
+                if (headingToTarget.magnitude < attackRange*20)
                 {
                     Attack();
                 }
