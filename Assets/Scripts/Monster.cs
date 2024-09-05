@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -22,7 +23,7 @@ public class Monster : Actor
     void Start()
     {
         speed = 0.05f;
-        health = 3;
+        health = 2;
         attackDamage = 1;
         attackRange = 1;
         attackCooldown = 1;
@@ -87,6 +88,31 @@ public class Monster : Actor
         else
         {
             moveVector = Vector3.zero;
+        }
+    }
+
+    private void DropLootOnDeath()
+    {
+        GameObject loot = ObjectPool.SharedInstance.GetPooledObject();
+        if (loot != null)
+        {
+            loot.transform.position = transform.position;
+            loot.transform.rotation = transform.rotation;
+            loot.SetActive(true);
+        }
+    }
+
+    public override void Damage(float damage)
+    {
+        Debug.Log(gameObject + " was hit for " + damage);
+        health -= damage;
+        effects.Play();
+        animator.SetTrigger("Damaged");
+        if (health <= 0)
+        {
+            animator.SetTrigger("Dead");
+            DropLootOnDeath();
+            isAlive = false;
         }
     }
 }

@@ -13,7 +13,7 @@ public class HealthBar : MonoBehaviour
         healthBarSlider = GetComponentInChildren<Slider>();
     }
 
-    private void UpdateBar(int health, int maxHealth)
+    private void UpdateBar(float health, float maxHealth)
     {
         healthBarSlider.maxValue = maxHealth;
         healthBarSlider.value = health;

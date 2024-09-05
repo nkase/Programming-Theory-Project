@@ -8,15 +8,20 @@ public class Player : Actor
     private GameObject focalPoint;
 
     private float speedRef = 0.1f;
-    private int maxHealth = 3;
+    private float maxHealth = 3;
     private int maxXP = 10;
     private int xp = 0;
+    private int level = 1;
+    private int gold = 0;
 
-    public delegate void PlayerHealthReport(int health, int maxHealth);
+    public delegate void PlayerHealthReport(float health, float maxHealth);
     public static event PlayerHealthReport playerHealthReport;
 
-    public delegate void PlayerXPReport(int xp, int maxXP);
+    public delegate void PlayerXPReport(int xp, int maxXP, int level);
     public static event PlayerXPReport playerXPReport;
+
+    public delegate void PlayerGoldReport(int gold);
+    public static event PlayerGoldReport playerGoldReport;
 
     // Start is called before the first frame update
     void Start()
@@ -32,7 +37,7 @@ public class Player : Actor
         effects = GetComponentInChildren<ParticleSystem>();
 
         playerHealthReport?.Invoke(health, maxHealth);
-        playerXPReport?.Invoke(xp, maxXP);
+        playerXPReport?.Invoke(xp, maxXP, level);
     }
 
     // Update is called once per frame
@@ -56,7 +61,11 @@ public class Player : Actor
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             xp++;
-            playerXPReport?.Invoke(xp, maxXP);
+            if (xp >= maxXP)
+            {
+                LevelUp();
+            }
+            playerXPReport?.Invoke(xp, maxXP, level);
         }
     }
 
@@ -88,7 +97,7 @@ public class Player : Actor
         }
     }
 
-    public override void Damage(int damage)
+    public override void Damage(float damage)
     {
         Debug.Log(gameObject + " was hit for " + damage);
         health -= damage;
@@ -102,10 +111,31 @@ public class Player : Actor
         }
     }
 
+    public void GainLoot (int lootedGold, int lootedXP)
+    {
+        gold += lootedGold;
+        playerGoldReport?.Invoke(gold);
+
+        xp += lootedXP;
+        if (xp >= maxXP)
+        {
+            LevelUp();
+        }
+        playerXPReport?.Invoke(xp, maxXP, level);
+    }
+
+    public void LevelUp()
+    {
+        xp = xp - maxXP;
+        level++;
+        attackDamage = 0.5f + (0.5f * level);
+        speedRef = 0.1f + (0.01f * level);
+    }
+
     private void OnCollisionEnter()
     {
         // cut speed in half while pushing a block
-        //speed = speedRef / 2;
+        // speed = speedRef / 2;
     }
 
     private void OnCollisionExit()

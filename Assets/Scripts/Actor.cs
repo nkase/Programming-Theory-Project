@@ -8,9 +8,9 @@ public abstract class Actor : MonoBehaviour
     protected float speed;
     protected Vector3 moveVector;
 
-    protected int health;
+    protected float health;
     protected float attackRange;
-    protected int attackDamage;
+    protected float attackDamage;
     protected float attackCooldown;
     protected float attackCDTimer;
     protected bool isAlive;
@@ -58,7 +58,7 @@ public abstract class Actor : MonoBehaviour
         }
     }
 
-    public virtual void Damage(int damage)
+    public virtual void Damage(float damage)
     {
         Debug.Log(gameObject + " was hit for " + damage);
         health -= damage;
