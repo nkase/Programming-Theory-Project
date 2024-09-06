@@ -7,12 +7,13 @@ public class Player : Actor
     [SerializeField]
     private GameObject focalPoint;
 
-    private float speedRef = 0.1f;
+    private float speedRef = 0.08f;
     private float maxHealth = 3;
-    private int maxXP = 10;
+    private int maxXP = 5;
     private int xp = 0;
     private int level = 1;
     private int gold = 0;
+    private float sprintModifier = 1.5f;
 
     public delegate void PlayerHealthReport(float health, float maxHealth);
     public static event PlayerHealthReport playerHealthReport;
@@ -30,7 +31,7 @@ public class Player : Actor
         health = 3;
         attackRange = 0.1f;
         attackDamage = 1;
-        attackCooldown = 1;
+        attackCooldown = 0.5f;
         isAlive = true;
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
@@ -56,17 +57,27 @@ public class Player : Actor
                 Interact();
                 animator.SetTrigger("Interact");
             }
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                animator.SetBool("IsSprinting", true);
+                speed = speedRef * sprintModifier;
+            }
+            if (Input.GetKeyUp(KeyCode.LeftShift))
+            {
+                animator.SetBool("IsSprinting", false);
+                speed = speedRef;
+            }
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            xp++;
-            if (xp >= maxXP)
-            {
-                LevelUp();
-            }
-            playerXPReport?.Invoke(xp, maxXP, level);
-        }
+        //if (Input.GetKeyDown(KeyCode.LeftShift))
+        //{
+        //    xp++;
+        //    if (xp >= maxXP)
+        //    {
+        //        LevelUp();
+        //    }
+        //    playerXPReport?.Invoke(xp, maxXP, level);
+        //}
     }
 
     void FixedUpdate()
@@ -87,7 +98,7 @@ public class Player : Actor
 
     private void Interact()
     {
-        Collider[] hitColliders = Physics.OverlapSphere(transform.position + (transform.forward * attackRange), attackRange - 1);
+        Collider[] hitColliders = Physics.OverlapSphere(transform.position + transform.forward, 1);
         foreach (var hitCollider in hitColliders)
         {
             if (hitCollider.GetComponentInParent<Interactable>() != null)
@@ -99,15 +110,19 @@ public class Player : Actor
 
     public override void Damage(float damage)
     {
-        Debug.Log(gameObject + " was hit for " + damage);
-        health -= damage;
-        playerHealthReport?.Invoke(health,maxHealth);
-        effects.Play();
-        animator.SetTrigger("Damaged");
-        if (health <= 0)
+        if (isAlive)
         {
-            animator.SetTrigger("Dead");
-            isAlive = false;
+            // Debug.Log(gameObject + " was hit for " + damage);
+            health -= damage;
+            playerHealthReport?.Invoke(health, maxHealth);
+            effects.Play();
+            animator.SetTrigger("Damaged");
+
+            if (health <= 0)
+            {
+                animator.SetTrigger("Dead");
+                isAlive = false;
+            }
         }
     }
 
@@ -129,7 +144,9 @@ public class Player : Actor
         xp = xp - maxXP;
         level++;
         attackDamage = 0.5f + (0.5f * level);
-        speedRef = 0.1f + (0.01f * level);
+        maxHealth++;
+        health = maxHealth;
+        playerHealthReport?.Invoke(health, maxHealth);
     }
 
     private void OnCollisionEnter()

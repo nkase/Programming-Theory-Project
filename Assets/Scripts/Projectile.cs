@@ -14,7 +14,6 @@ public class Projectile : MonoBehaviour
         parent = transform.parent.gameObject;
         parentActorScript = parent.GetComponent<Actor>();
         StartCoroutine(DeactivateAfterLifetime());
-        Debug.Log("Projectile facing:" + transform.forward);
         transform.Translate(new Vector3(0, 1, 0));
     }
 

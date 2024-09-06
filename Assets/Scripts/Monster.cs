@@ -7,11 +7,8 @@ using UnityEngine;
 public class Monster : Actor
 {
     private Player player;
-    private float hostilityRadius = 20;
-    [SerializeField]
+    private float hostilityRadius = 8;
     private Vector3 headingToTarget;
-    [SerializeField]
-    float range;
 
     public delegate void OnMonsterHostility();
     public static event OnMonsterHostility onMonsterHostility;
@@ -22,7 +19,7 @@ public class Monster : Actor
     // Start is called before the first frame update
     void Start()
     {
-        speed = 0.05f;
+        speed = 0.03f;
         health = 2;
         attackDamage = 1;
         attackRange = 0.1f;
@@ -43,7 +40,6 @@ public class Monster : Actor
             {
                 MoveVectorToTarget();
                 Move();
-                range = headingToTarget.magnitude;
                 if (headingToTarget.magnitude < attackRange*20)
                 {
                     Attack();
@@ -104,15 +100,19 @@ public class Monster : Actor
 
     public override void Damage(float damage)
     {
-        Debug.Log(gameObject + " was hit for " + damage);
-        health -= damage;
-        effects.Play();
-        animator.SetTrigger("Damaged");
-        if (health <= 0)
+        if (isAlive)
         {
-            animator.SetTrigger("Dead");
-            DropLootOnDeath();
-            isAlive = false;
+            //Debug.Log(gameObject + " was hit for " + damage);
+            health -= damage;
+            effects.Play();
+            animator.SetTrigger("Damaged");
+            if (health <= 0)
+            {
+                animator.SetTrigger("Dead");
+                DropLootOnDeath();
+                onMonsterPassivity?.Invoke();
+                isAlive = false;
+            }
         }
     }
 }

@@ -83,6 +83,6 @@ public abstract class Actor : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position + (transform.forward * attackRange), attackRange);
+        Gizmos.DrawWireSphere(transform.position + (transform.forward), 1);
     }
 }
