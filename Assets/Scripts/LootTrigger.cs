@@ -10,11 +10,13 @@ public class LootTrigger : MonoBehaviour
     [SerializeField] private int maxGold = 5;
     private ParticleSystem lootFX;
     private MeshRenderer lootRenderer;
+    private AudioSource pickupSFX;
 
     private void OnEnable()
     {
         lootFX = GetComponent<ParticleSystem>();
         lootRenderer = GetComponent<MeshRenderer>();
+        pickupSFX = GetComponent<AudioSource>();
         lootRenderer.enabled = true;
     }
 
@@ -24,6 +26,7 @@ public class LootTrigger : MonoBehaviour
         if (playerTriggering != null)
         {
             playerTriggering.GainLoot(Random.Range(minGold, maxGold), Random.Range(minXP, maxXP));
+            pickupSFX.Play();
             StartCoroutine(DeactivateAfterFX());
         }
     }

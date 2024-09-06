@@ -8,11 +8,13 @@ public class Projectile : MonoBehaviour
     private GameObject parent;
     private Actor parentActorScript;
     private float speed = 10;
+    private AudioSource hitSound;
 
     private void OnEnable()
     {
         parent = transform.parent.gameObject;
         parentActorScript = parent.GetComponent<Actor>();
+        hitSound = GetComponent<AudioSource>();
         StartCoroutine(DeactivateAfterLifetime());
         transform.Translate(new Vector3(0, 1, 0));
     }
@@ -31,6 +33,7 @@ public class Projectile : MonoBehaviour
             if (other.gameObject != transform.parent.gameObject)
             {
                 otherActor.Damage(parentActorScript.attackDamage);
+                hitSound.Play();
             }
         }
     }

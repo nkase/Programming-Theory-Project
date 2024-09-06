@@ -6,6 +6,7 @@ public class Player : Actor
 {
     [SerializeField]
     private GameObject focalPoint;
+    private AudioSource walkSound;
 
     private float speedRef = 0.08f;
     private float maxHealth = 3;
@@ -33,9 +34,11 @@ public class Player : Actor
         attackDamage = 1;
         attackCooldown = 0.5f;
         isAlive = true;
+
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         effects = GetComponentInChildren<ParticleSystem>();
+        walkSound = GetComponent<AudioSource>();
 
         playerHealthReport?.Invoke(health, maxHealth);
         playerXPReport?.Invoke(xp, maxXP, level);
@@ -48,6 +51,11 @@ public class Player : Actor
         {
             attackCDTimer -= Time.deltaTime;
             ControlMoveVector();
+            if (moveVector.magnitude > 0)
+            {
+                walkSound.volume = 1;
+            }
+            else { walkSound.volume = 0; }
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 Attack();
