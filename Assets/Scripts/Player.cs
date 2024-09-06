@@ -6,15 +6,14 @@ public class Player : Actor
 {
     [SerializeField]
     private GameObject focalPoint;
-    private AudioSource walkSound;
 
-    private float speedRef = 0.06f;
+    private float speedRef = 0.08f;
     private float maxHealth = 3;
     private int maxXP = 5;
     private int xp = 0;
     private int level = 1;
     private int gold = 0;
-    private float sprintModifier = 2f;
+    private float sprintModifier = 2;
 
     public delegate void PlayerHealthReport(float health, float maxHealth);
     public static event PlayerHealthReport playerHealthReport;

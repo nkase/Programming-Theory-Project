@@ -10,12 +10,12 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.C))
-        {
-            // mouseX = Input.GetAxis("Mouse X");
-            //transform.Rotate(0, mouseX * lookSpeed * Time.deltaTime, 0);
-            transform.Rotate(0, 45, 0);
-        }
+        //if (Input.GetKeyDown(KeyCode.C))
+        //{
+        //    // mouseX = Input.GetAxis("Mouse X");
+        //    //transform.Rotate(0, mouseX * lookSpeed * Time.deltaTime, 0);
+        //    transform.Rotate(0, 45, 0);
+        //}
 
         transform.position = player.transform.position;
     }
