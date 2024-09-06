@@ -25,9 +25,11 @@ public class Monster : Actor
         attackRange = 0.1f;
         attackCooldown = 1;
         isAlive = true;
+
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         effects = GetComponentInChildren<ParticleSystem>();
+        soundEffects = GetComponents<AudioSource>();
     }
 
     // Update is called once per frame
@@ -106,6 +108,7 @@ public class Monster : Actor
             health -= damage;
             effects.Play();
             animator.SetTrigger("Damaged");
+            soundEffects[2].Play();
             if (health <= 0)
             {
                 animator.SetTrigger("Dead");

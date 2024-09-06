@@ -8,13 +8,13 @@ public class Player : Actor
     private GameObject focalPoint;
     private AudioSource walkSound;
 
-    private float speedRef = 0.08f;
+    private float speedRef = 0.06f;
     private float maxHealth = 3;
     private int maxXP = 5;
     private int xp = 0;
     private int level = 1;
     private int gold = 0;
-    private float sprintModifier = 1.5f;
+    private float sprintModifier = 2f;
 
     public delegate void PlayerHealthReport(float health, float maxHealth);
     public static event PlayerHealthReport playerHealthReport;
@@ -38,7 +38,8 @@ public class Player : Actor
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         effects = GetComponentInChildren<ParticleSystem>();
-        walkSound = GetComponent<AudioSource>();
+        // Additional sound effect compared to Actor: 3. Level up sound
+        soundEffects = GetComponents<AudioSource>();
 
         playerHealthReport?.Invoke(health, maxHealth);
         playerXPReport?.Invoke(xp, maxXP, level);
@@ -51,11 +52,6 @@ public class Player : Actor
         {
             attackCDTimer -= Time.deltaTime;
             ControlMoveVector();
-            if (moveVector.magnitude > 0)
-            {
-                walkSound.volume = 1;
-            }
-            else { walkSound.volume = 0; }
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 Attack();
@@ -125,7 +121,7 @@ public class Player : Actor
             playerHealthReport?.Invoke(health, maxHealth);
             effects.Play();
             animator.SetTrigger("Damaged");
-
+            soundEffects[2].Play();
             if (health <= 0)
             {
                 animator.SetTrigger("Dead");
@@ -155,6 +151,7 @@ public class Player : Actor
         maxHealth++;
         health = maxHealth;
         playerHealthReport?.Invoke(health, maxHealth);
+        soundEffects[3].Play();
     }
 
     private void OnCollisionEnter()

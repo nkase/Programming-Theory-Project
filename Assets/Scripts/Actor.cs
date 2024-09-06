@@ -18,6 +18,11 @@ public abstract class Actor : MonoBehaviour
     protected Rigidbody rb;
     protected Animator animator;
     protected ParticleSystem effects;
+    // Audio layout:
+    // 0. Walk Sound
+    // 1. Attack Sound
+    // 2. Hurt Sound
+    protected AudioSource[] soundEffects;
     [SerializeField] protected GameObject attackProjectile;
 
     protected void Move()
@@ -37,7 +42,7 @@ public abstract class Actor : MonoBehaviour
     {
         if (attackCDTimer <= 0)
         {
-            //effects.Play();
+            soundEffects[1].Play();
             animator.SetTrigger("Attack");
             attackCDTimer = attackCooldown;
         }
@@ -73,11 +78,17 @@ public abstract class Actor : MonoBehaviour
         health -= damage;
         effects.Play();
         animator.SetTrigger("Damaged");
+        soundEffects[2].Play();
         if (health <= 0)
         {
             animator.SetTrigger("Dead");
             isAlive = false;
         }
+    }
+
+    public void PlayWalkSound()
+    {
+        soundEffects[0].Play();
     }
 
     private void OnDrawGizmos()
