@@ -18,6 +18,7 @@ public class LootTrigger : MonoBehaviour
         lootRenderer = GetComponent<MeshRenderer>();
         pickupSFX = GetComponent<AudioSource>();
         lootRenderer.enabled = true;
+        transform.Translate(Vector3.up);
     }
 
     private void OnTriggerEnter(Collider other)
