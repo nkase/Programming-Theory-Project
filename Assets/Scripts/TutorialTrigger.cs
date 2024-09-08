@@ -7,6 +7,8 @@ public class TutorialTrigger : MonoBehaviour
     private bool tutorialSegmentHasPlayed;
     [SerializeField] private int tutorialSegment;
 
+
+    // ENCAPSULATION
     public delegate void PlayTutorial(int tutorialSegment, bool tutorialSegmentHasPlayed);
     public static event PlayTutorial playTutorial;
     

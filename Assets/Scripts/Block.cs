@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Security.Cryptography;
 using UnityEngine;
 
+// INHERITANCE
 public class Block : Interactable
 {
     //private float weight = 1f;
@@ -15,6 +16,7 @@ public class Block : Interactable
         soundEffect = GetComponent<AudioSource>();
     }
 
+    // POLYMORPHISM
     public override void Interact(GameObject interactor)
     {
         Debug.Log("Maybe I can push this?");

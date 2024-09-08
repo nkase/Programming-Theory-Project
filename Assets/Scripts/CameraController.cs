@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+// ABSTRACTION
+// Widely applicable behaviour - rename to TransformToTarget, rename "player" to "target" and use it wherever needed.
 public class CameraController : MonoBehaviour
 {
     [SerializeField]

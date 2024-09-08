@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// ABSTRACTION
+// This behaviour can be applied to any object to make it bob up and down.
 public class FloatingBob : MonoBehaviour
 {
     [SerializeField] private float oscillationCycleTime;

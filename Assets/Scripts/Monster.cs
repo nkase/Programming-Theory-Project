@@ -4,12 +4,14 @@ using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
+// INHERITANCE
 public class Monster : Actor
 {
     private Player player;
     private float hostilityRadius = 8;
     private Vector3 headingToTarget;
 
+    // ENCAPSULATION
     public delegate void OnMonsterHostility();
     public static event OnMonsterHostility onMonsterHostility;
 
@@ -33,6 +35,7 @@ public class Monster : Actor
     }
 
     // Update is called once per frame
+    // ABSTRACTION
     void FixedUpdate()
     {
         if (isAlive)
@@ -100,6 +103,7 @@ public class Monster : Actor
         }
     }
 
+    // POLYMORPHISM
     public override void Damage(float damage)
     {
         if (isAlive)

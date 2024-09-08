@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+// ABSTRACTION at its finest
 public class MoveForward : MonoBehaviour
 {
-    [SerializeField] private float speed;
     // Update is called once per frame
     void Update()
     {

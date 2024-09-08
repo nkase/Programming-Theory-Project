@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// INHERITANCE
 public class Player : Actor
 {
     [SerializeField]
@@ -15,6 +16,7 @@ public class Player : Actor
     private int gold = 0;
     private float sprintModifier = 2;
 
+    // ENCAPSULATION
     public delegate void PlayerHealthReport(float health, float maxHealth);
     public static event PlayerHealthReport playerHealthReport;
 
@@ -45,6 +47,7 @@ public class Player : Actor
     }
 
     // Update is called once per frame
+    // ABSTRACTION
     void Update()
     {
         if (isAlive)
@@ -83,6 +86,7 @@ public class Player : Actor
         //}
     }
 
+    // ABSTRACTION
     void FixedUpdate()
     {
         if (isAlive)
@@ -111,6 +115,7 @@ public class Player : Actor
         }
     }
 
+    // POLYMORPHISM
     public override void Damage(float damage)
     {
         if (isAlive)

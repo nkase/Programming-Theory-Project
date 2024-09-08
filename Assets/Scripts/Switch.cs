@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// INHERITANCE
 public class Switch : Interactable
 {
     [SerializeField] private bool switchState = false;
@@ -14,6 +15,7 @@ public class Switch : Interactable
         soundEffect = GetComponent<AudioSource>();
     }
 
+    // POLYMORPHISM
     public override void Interact(GameObject interactor)
     {
         if (switchState == false)

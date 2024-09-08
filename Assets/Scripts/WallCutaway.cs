@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WallCutaway : MonoBehaviour
 {
-    private bool isPlayerOccupied;
+    //private bool isPlayerOccupied;
     private int playerEnterCount;
     private Transform southEastWallContainer;
     private MeshRenderer[] wallsToCut;
@@ -22,7 +22,7 @@ public class WallCutaway : MonoBehaviour
         if (other.gameObject.GetComponent<Player>() != null)
         {
             playerEnterCount++;
-            isPlayerOccupied = true;
+            //isPlayerOccupied = true;
             foreach(MeshRenderer meshRenderer in wallsToCut)
             {
                 var materialCopy = meshRenderer.material;
@@ -38,7 +38,7 @@ public class WallCutaway : MonoBehaviour
             playerEnterCount--;
             if (playerEnterCount <= 0)
             {
-                isPlayerOccupied = false;
+                //isPlayerOccupied = false;
                 foreach (MeshRenderer meshRenderer in wallsToCut)
                 {
                     var materialCopy = meshRenderer.material;

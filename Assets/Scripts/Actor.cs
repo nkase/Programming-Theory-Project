@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+// ABSTRACTION
+// Literally just a collection of data structures and behaviours that all actors will share
+// and to act as a tag when looking for either players or enemies.
 public abstract class Actor : MonoBehaviour
 {
     protected float speed;

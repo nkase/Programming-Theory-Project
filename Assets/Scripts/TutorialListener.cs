@@ -22,6 +22,7 @@ public class TutorialListener : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // ENCAPSULATION
         TutorialTrigger.playTutorial += DisplayTutorial;
         TutorialTrigger.dismissTutorial += DismissTutorial;
         tutorialText = tutorialDisplay.GetComponentInChildren<TextMeshProUGUI>();
@@ -60,6 +61,7 @@ public class TutorialListener : MonoBehaviour
         tutorialDisplaySmall.gameObject.SetActive(false);
     }
 
+    // ABSTRACTION
     private IEnumerator DisplaySmallTutorialAfterTimer(int tutorialSegment)
     {
         yield return new WaitForSeconds(2);
