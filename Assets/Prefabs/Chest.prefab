@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7521281404674619199}
-  - component: {fileID: 767324342336458613}
   m_Layer: 0
   m_Name: Chest
   m_TagString: Untagged
@@ -34,19 +33,6 @@ Transform:
   - {fileID: 4590515365809579608}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!114 &767324342336458613
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7447849375809790487}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3ea1f5d50b178c5439b52440a38fb7fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lid: {fileID: 3818799372087147746}
 --- !u!1001 &4052799972417995187
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -185,10 +171,31 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1bf63c0899d49114e9e0a11b3dbb5187, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4215547649716656877}
   m_SourcePrefab: {fileID: 100100000, guid: 1bf63c0899d49114e9e0a11b3dbb5187, type: 3}
 --- !u!4 &4704438728606717737 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1bf63c0899d49114e9e0a11b3dbb5187, type: 3}
   m_PrefabInstance: {fileID: 5098988903060009154}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5332920247043345811 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 1bf63c0899d49114e9e0a11b3dbb5187, type: 3}
+  m_PrefabInstance: {fileID: 5098988903060009154}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4215547649716656877
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5332920247043345811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3ea1f5d50b178c5439b52440a38fb7fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  lid: {fileID: 3818799372087147746}
